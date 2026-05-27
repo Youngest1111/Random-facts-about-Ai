@@ -1,0 +1,281 @@
+// ============================================
+// 2026 Modern AI Facts - JavaScript
+// ============================================
+
+// Facts Database
+const factsDatabase = [
+  {
+    text: "AI stands for Artificial Intelligence, which refers to machines simulating human intelligence.",
+    category: "Basics"
+  },
+  {
+    text: "The term 'Artificial Intelligence' was first coined in 1956 at the Dartmouth Conference.",
+    category: "History"
+  },
+  {
+    text: "AI is used in everyday applications like voice assistants, recommendation systems, and spam filters.",
+    category: "Applications"
+  },
+  {
+    text: "Machine learning is a subset of AI that allows systems to learn from data without explicit programming.",
+    category: "Tech"
+  },
+  {
+    text: "AI can analyze massive datasets much faster than humans, making it useful in healthcare and finance.",
+    category: "Benefits"
+  },
+  {
+    text: "Neural networks are inspired by the human brain and are the foundation of deep learning.",
+    category: "Technology"
+  },
+  {
+    text: "AI ethics is a growing field that addresses fairness, transparency, and accountability in AI systems.",
+    category: "Ethics"
+  },
+  {
+    text: "AI is behind technologies like self-driving cars, facial recognition, and language translation.",
+    category: "Innovation"
+  }
+];
+
+// State Management
+let currentFactIndex = -1;
+let discoveredFacts = new Set();
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initNavigation();
+  initKeyboardShortcuts();
+  updateFactsCounter();
+});
+
+// ============================================
+// Theme Management
+// ============================================
+
+function initTheme() {
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    updateThemeButton('☀️');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    updateThemeButton('🌙');
+  }
+}
+
+function updateThemeButton(emoji) {
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.textContent = emoji;
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  localStorage.setItem('theme', currentTheme);
+  initTheme();
+});
+
+// ============================================
+// Navigation
+// ============================================
+
+function initNavigation() {
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  window.addEventListener('scroll', () => {
+    let current = '';
+    
+    document.querySelectorAll('section').forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (window.pageYOffset >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+    
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').slice(1) === current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Smooth scroll
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').slice(1);
+      const targetSection = document.getElementById(targetId);
+      
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+}
+
+// ============================================
+// Facts Functionality
+// ============================================
+
+function showFact() {
+  // Get random index
+  let randomIndex;
+  
+  if (discoveredFacts.size === factsDatabase.length) {
+    // Reset if all facts discovered
+    discoveredFacts.clear();
+  }
+  
+  do {
+    randomIndex = Math.floor(Math.random() * factsDatabase.length);
+  } while (discoveredFacts.has(randomIndex) && discoveredFacts.size < factsDatabase.length);
+  
+  currentFactIndex = randomIndex;
+  discoveredFacts.add(randomIndex);
+  
+  const fact = factsDatabase[randomIndex];
+  
+  // Update DOM
+  updateFactDisplay(fact, randomIndex);
+  updateFactsCounter();
+  
+  // Animate
+  animateFactCard();
+}
+
+function updateFactDisplay(fact, index) {
+  const factText = document.getElementById('factText');
+  const factNumber = document.getElementById('factNumber');
+  const factCategory = document.getElementById('factCategory');
+  
+  factText.textContent = fact.text;
+  factNumber.textContent = String(index + 1).padStart(2, '0');
+  factCategory.textContent = fact.category;
+}
+
+function updateFactsCounter() {
+  document.getElementById('factCounter').textContent = discoveredFacts.size;
+  document.getElementById('totalFacts').textContent = factsDatabase.length;
+}
+
+function animateFactCard() {
+  const factCard = document.querySelector('.fact-card');
+  factCard.style.animation = 'none';
+  setTimeout(() => {
+    factCard.style.animation = 'slideUp 0.5s ease-out';
+  }, 10);
+}
+
+// ============================================
+// Share Functionality
+// ============================================
+
+function shareFact() {
+  if (currentFactIndex === -1) {
+    showNotification('Please get a fact first!');
+    return;
+  }
+  
+  const fact = factsDatabase[currentFactIndex];
+  const shareText = `🧠 AI Fact: "${fact.text}" \n\nDiscover more at AI Facts Generator!`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'AI Facts Generator',
+      text: shareText,
+      url: window.location.href
+    }).catch(err => console.log('Error sharing:', err));
+  } else {
+    // Fallback: Copy to clipboard
+    copyToClipboard(shareText);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification('Fact copied to clipboard! 📋');
+  }).catch(() => {
+    showNotification('Failed to copy. Please try again.');
+  });
+}
+
+// ============================================
+// Notifications
+// ============================================
+
+function showNotification(message) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'toast-notification';
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    z-index: 10000;
+    animation: slideUp 0.3s ease-out;
+    box-shadow: 0 10px 25px rgba(0, 102, 255, 0.3);
+    font-weight: 500;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideUp 0.3s ease-out reverse';
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 3000);
+}
+
+// ============================================
+// Keyboard Shortcuts
+// ============================================
+
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // Space: Get new fact
+    if (e.code === 'Space' && e.target === document.body) {
+      e.preventDefault();
+      showFact();
+    }
+    
+    // D: Toggle dark mode
+    if (e.code === 'KeyD' && e.ctrlKey) {
+      e.preventDefault();
+      document.getElementById('themeToggle').click();
+    }
+  });
+}
+
+// ============================================
+// Performance: Intersection Observer
+// ============================================
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.about-card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  observer.observe(card);
+});
