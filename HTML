@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover fascinating facts about Artificial Intelligence. Learn about AI history, applications, and latest developments.">
+  <meta name="keywords" content="AI, Artificial Intelligence, facts, education">
+  <meta name="theme-color" content="#0f172a">
+  
+  <title>AI Facts Generator | Discover AI Knowledge</title>
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2? family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">✨</span>
+        <span>AI Facts</span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#facts" class="nav-link">Facts</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span>🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Explore the World of <span class="gradient-text">Artificial Intelligence</span></h1>
+        <p class="hero-subtitle">Discover fascinating facts about AI, from its origins to cutting-edge applications shaping our future.</p>
+        <a href="#facts" class="cta-button primary">Discover Facts</a>
+      </div>
+      <div class="hero-visual">
+        <div class="animated-gradient"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facts Section -->
+  <section id="facts" class="facts-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Random AI Fact Generator</h2>
+        <p>Click below to reveal interesting facts about artificial intelligence</p>
+      </div>
+
+      <div class="fact-container">
+        <div class="fact-card">
+          <div class="fact-number" id="factNumber">01</div>
+          <div class="fact-content">
+            <p id="factText" class="fact-text">Click the button to discover an AI fact!</p>
+          </div>
+          <div class="fact-metadata">
+            <span class="fact-category" id="factCategory">AI</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn primary" id="newFactBtn" onclick="showFact()">
+            <span>Get New Fact</span>
+            <span class="btn-icon">→</span>
+          </button>
+          <button class="btn secondary" id="shareBtn" onclick="shareFact()">
+            <span>Share</span>
+            <span class="btn-icon">🔗</span>
+          </button>
+        </div>
+
+        <div class="fact-counter">
+          <span id="factCounter">0</span> / <span id="totalFacts">8</span> facts discovered
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>About This Project</h2>
+        <p>Educational tool to promote AI awareness and knowledge</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">🧠</div>
+          <h3>Educational</h3>
+          <p>Learn about AI fundamentals, history, and modern applications through bite-sized facts.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">⚡</div>
+          <h3>Fast & Simple</h3>
+          <p>Get instant access to curated facts with a clean, distraction-free interface.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🌐</div>
+          <h3>Modern Design</h3>
+          <p>Built with modern web standards and responsive design for all devices.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>AI Facts Generator</h4>
+          <p>Spreading knowledge about Artificial Intelligence one fact at a time.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#facts">Facts</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#" target="_blank">Twitter</a></li>
+            <li><a href="#" target="_blank">GitHub</a></li>
+            <li><a href="#" target="_blank">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 AI Facts Generator. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
